@@ -12,7 +12,6 @@ console.log(bookJSON);                 //prints JSON string to console
 const parsedData = JSON.parse(bookJSON);
 
 
-
 // read & write data to JSON file
 
 
