@@ -23,51 +23,70 @@ yargs.command({
             type: "boolean"
         }
     },
-    handler: function(argv) { 
-        console.log("Title: "+ argv.title);
-        console.log("Content: "+ argv.body);
-        console.log("Status: "+argv.status);
+    handler(argv) { 
+        // console.log("Title: "+ argv.title);
+        // console.log("Content: "+ argv.body);
+        // console.log("Status: "+argv.status);
 
-        fs.appendFileSync("text.txt",`${argv.title} : ${argv.body} | ${argv.status}\n`)
-        // notes.addNote(argv.title,argv.body,argv.status)
+        // fs.appendFileSync("text.txt",`${argv.title} : ${argv.body} | ${argv.status}\n`)
+        notes.addNote(argv.title,argv.body,argv.status);
     },
 })
 
-//Create command to remove a note
+//Command to REMOVE a note
 yargs.command({
     command : 'remove',
     desc : "removes note",
-    handler : function() {
-        console.log("removing a note")
+    builder: {
+        title: {
+            desc: "Removes a particular note from Notes",
+            demandOption: true,
+            type: "string",
+        }
+    },
+    handler(argv) {
+        notes.removeNote(argv.title);
     }
 })
 
-//Create command read note
+//Create READ note command
 yargs.command({
     command: 'read',
     desc: "reads the note",
+    builder: {
+        title: {
+            desc: "Note title",
+            demandOption: true,
+            type: "String",
+        }
+    },
+    handler(argv){
+        notes.readNote(argv.title);
+    }
+    })
+    /* For reading a particular line
+
     builder: {
         read_line : {
             desc: "reads a particular line",
             demandOption: true,
             type: "number",
         }
-    },
-    handler: function(argv) {
+    handler(argv) {
        fs.readFile("text.txt",function (err, text) {
                let arr = text.toString().split("\n");
                let line = arr[argv.read_line];
                console.log(line);
            })
-    }
-})
+    }*/
+
 
 //Create list command
 yargs.command({
     command: 'list',
     desc: "lists notes",
-    handler: function() {
-        console.log("listing out the notes!")
+    handler(argv) {
+        notes.listNotes(argv.title);
     }
 })
 
