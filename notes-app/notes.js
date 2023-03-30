@@ -1,7 +1,6 @@
 const fs = require('fs')
 
 
-
 //ADD note to notes array
 const addNote = (title,body,status) => {
     const notes = loadNotes();                             //notes: holds the dataBuffer here. is motified and updated in the next steps
@@ -13,12 +12,13 @@ const addNote = (title,body,status) => {
     //find(), finds the first duplicate in the array and returns true or false
     const duplicateNote = notes.find((note) => note.title === title)
 
+    debugger
 
     if(!duplicateNote){
         notes.push({
             title: title,
             body: body,
-            status: status
+            status: status,
         });
         saveNotes(notes);
         console.log("New note added!");
@@ -41,7 +41,9 @@ const loadNotes = () => {
 
 //SAVES updated notes by writeFileSync 
 const saveNotes = (notes) => {
+    console.log(notes);
     const dataJSON = JSON.stringify(notes);
+    console.log(dataJSON);
     fs.writeFileSync('notes.json',dataJSON);
 }
 
