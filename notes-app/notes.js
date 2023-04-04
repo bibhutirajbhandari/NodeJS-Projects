@@ -12,7 +12,6 @@ const addNote = (title,body,status) => {
     //find(), finds the first duplicate in the array and returns true or false
     const duplicateNote = notes.find((note) => note.title === title)
 
-    debugger
 
     if(!duplicateNote){
         notes.push({
@@ -90,10 +89,29 @@ const readNote = (title) => {
         console.log("Note not found!");
     }
 }
+const replaceNote =(replace) => {
+    const notes = loadNotes()
+    console.log(notes)
+    const note = notes.find((note) => note.title === title);
+
+    if(!duplicateNote){
+        notes.push({
+            title: title,
+            body: body,
+            status: status,
+        });
+        saveNotes(notes);
+        console.log("New note added!");
+    }
+    else {
+        console.log("duplicate object!");
+    }
+}
 
 module.exports = {
     addNote : addNote,
     removeNote : removeNote,
     listNotes : listNotes,
     readNote : readNote,
+    replaceNote: replaceNote,
 }

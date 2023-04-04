@@ -33,6 +33,33 @@ yargs.command({
     },
 })
 
+yargs.command({
+    command : 'replace',
+    desc: "replace note by",
+    builder: {
+        title: {
+            desc : "command title",
+            demandOption: true,
+            type: "string",
+        },
+        body: {
+            desc: "command's body",
+            demandOption: true,
+            type: "string"
+        },
+        status: {
+            desc: "status of command",
+            demandOption: true,
+            type: "boolean"
+        }
+    },
+    handler(argv) { 
+    
+        // fs.appendFileSync("text.txt",`${argv.title} : ${argv.body} | ${argv.status}\n`)
+        notes.replaceNote(argv.title,argv.body,argv.status);
+    },
+})
+
 //Command to REMOVE a note
 yargs.command({
     command : 'remove',
