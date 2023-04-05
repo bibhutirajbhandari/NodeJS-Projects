@@ -2,7 +2,7 @@ const request = require('postman-request');
 const geocode = require('./utils/geocode');
 const forecast = require('./utils/forecast');
 
-
+//weather forecast from command line
 const address = process.argv[2];
 console.log(process.argv);
 
@@ -24,4 +24,5 @@ if(address) {
 } else {
    return console.log('Please provide an address');
 }
+
 

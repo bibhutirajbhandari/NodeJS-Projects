@@ -21,17 +21,17 @@ const app = express();
 
 //manual assignment of path
 
-app.get('', (req,res) => {
-    res.send('<h1>Hello Express!</h1>');
-})
+// app.get('', (req,res) => {
+//     res.send('<h1>Hello Express!</h1>');
+// })
 
-app.get('/help',(req,res) => {
-    res.send('<h1>Help Page</h1>');
-})
+// app.get('/help',(req,res) => {
+//     res.send('<h1>Help Page</h1>');
+// })
 
-app.get('/about',(req,res) => {
-    res.send('<h1>About Page</h1>');
-})
+// app.get('/about',(req,res) => {
+//     res.send('<h1>About Page</h1>');
+// })
 
 app.get('/weather',(req,res) => {
     if(!req.query.location) {
@@ -57,6 +57,7 @@ app.get('/weather',(req,res) => {
         })   
 })
 
+
 app.get('/products',(req,res) => {
     if(!req.query.search) {
         return res.send({
@@ -77,6 +78,14 @@ app.get('/products',(req,res) => {
 //     res.send('404 page');
 // });
 
+console.log('Client side javascript file is loaded!')
+
+fetch('https://puzzle.mead.io/puzzle').then(res => {
+    console.log(res);
+    res.json().then(data => {
+        console.log(data);
+    })
+})
 
 app.listen(3000, () => {
 console.log('server is up on port 3000');

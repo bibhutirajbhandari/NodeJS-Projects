@@ -5,7 +5,7 @@ const forecast = (lat,lon,callback)  => {
     const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=24586a321a4110eb8e15a1f249b602cb&units=metric`;
 
     request({url,json: true},(error,{body}) => {
-        
+        console.log('body', body);
         if(error) {
             callback("Unable to access weather service",undefined);
         }else if(body.message){
