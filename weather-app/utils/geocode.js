@@ -44,7 +44,7 @@ const geocode = (city,callback) => {
       // })
 
       .catch(error => {
-         callback(`error message: ${error.message}`);
+         callback(`error message: ${error.message}`); //just prints the message of error 
       })
    })
 }
