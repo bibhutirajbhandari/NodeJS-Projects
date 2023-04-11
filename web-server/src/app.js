@@ -2,8 +2,9 @@ const express = require('express');
 const path = require('path');
 const forecast = require('./utils/forecast');
 const geocode = require('./utils/geocode');
+const hbs = require()
  
-console.log(__dirname); //provides current directory path
+// console.log(__dirname); //provides current directory path
 // console.log(path.join(__dirname, '../assests')); // modifies to web-server -> assests from web-server -> src 
 
 // console.log(__filename); //provides current file path
@@ -11,7 +12,6 @@ console.log(__dirname); //provides current directory path
 
 const app = express();
 // const publicPath = path.join(__dirname, '../public');
-
 // const helpPath = path.join(__filename,'../public/helpPath.html'); 
 // const aboutPath = path.join(__filename,'../public/aboutPath.html'); 
 
