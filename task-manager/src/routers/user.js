@@ -47,11 +47,11 @@ router.get("/users/:id", async (req, res) => {
 router.patch("/users/:id", async (req, res) => {
   const _id = req.params.id;
 
-  const updateKeys = Object.keys(req.body);
+  const updates = Object.keys(req.body); //provides object keys to update
   // console.log(updateKeys);
 
   const allowedUpdates = ["name", "email", "password"];
-  const isValidOperation = updateKeys.every((update) => {
+  const isValidOperation = updates.every((update) => {
     return allowedUpdates.includes(update);
   });
   if (!isValidOperation) {
@@ -59,11 +59,27 @@ router.patch("/users/:id", async (req, res) => {
   }
 
   try {
-    const result = await User.findByIdAndUpdate(_id, req.body);
-    // console.log(result)
-    if (!result) {
+    // const result = await User.findByIdAndUpdate(_id, req.body);
+    // console.log(user);
+
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
       return res.status(404).send();
     }
+
+    updates.forEach((update) => {
+      user[update] = req.body[update];
+    });
+    try {
+      await user.save();
+    } catch (err) {
+      console.log(err);
+      return res.status(400).send({
+        message: "invalid format",
+      });
+    }
+
     const updatedResult = await User.findById(_id);
     res.send(updatedResult);
   } catch (e) {
@@ -84,6 +100,23 @@ router.delete("/users/:id", async (req, res) => {
     res.send(updatedResult);
   } catch (e) {
     res.status(500).send();
+  }
+});
+
+//Login
+router.post("/users/login", async (req, res) => {
+  try {
+    const user = await User.findByCredentials(
+      req.body.email,
+      req.body.password
+    );
+    try {
+      res.send(user);
+    } catch (e) {
+      console.log("unable to send user");
+    }
+  } catch (e) {
+    res.status(400).send();
   }
 });
 

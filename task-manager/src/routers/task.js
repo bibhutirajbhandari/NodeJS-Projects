@@ -57,11 +57,11 @@ router.get("/tasks/:id", async (req, res) => {
 router.patch("/tasks/:id", async (req, res) => {
   const _id = req.params.id;
 
-  const updateKeys = Object.keys(req.body);
+  const updates = Object.keys(req.body);
   // console.log(updateKeys);
 
   const allowedUpdates = ["desc", "status"];
-  const isValidOperation = updateKeys.every((update) => {
+  const isValidOperation = updates.every((update) => {
     return allowedUpdates.includes(update);
   });
   if (!isValidOperation) {
@@ -69,11 +69,27 @@ router.patch("/tasks/:id", async (req, res) => {
   }
 
   try {
-    const result = await Task.findByIdAndUpdate(_id, req.body);
+    // const result = await Task.findByIdAndUpdate(_id, req.body);
     // console.log(result)
-    if (!result) {
+
+    const task = await Task.findById(req.params.id);
+
+    if (!task) {
       return res.status(404).send();
     }
+
+    updates.forEach((update) => {
+      task[update] = req.body[update];
+    });
+    try {
+      await task.save();
+    } catch (err) {
+      console.log(err);
+      return res.status(400).send({
+        message: "invalid format",
+      });
+    }
+
     const updatedResult = await Task.findById(_id);
     res.send(updatedResult);
   } catch (e) {
