@@ -12,6 +12,19 @@ app.listen(port, () => {
   console.log(`Server is up on port ${port}`);
 });
 
+// app.use((req, res, next) => {
+//   if (req.method === "GET") {
+//     res.send("cannot perform GET operation");
+//   } else {
+//     next();
+//   }
+// });
+// app.use((req, res, next) => {
+//   res.status(503).send();
+// });
+
+
+
 app.use(express.json()); //your application is using json() method of Express to get data in json format
 app.use(userRouter);
 app.use(taskRouter);

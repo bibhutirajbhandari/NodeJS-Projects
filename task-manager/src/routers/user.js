@@ -1,30 +1,57 @@
 const express = require("express");
 const User = require("../models/user");
+const auth = require("../middleware/auth");
 const router = new express.Router();
 
-//POST method
+//POST method : Signin
 router.post("/users", async (req, res) => {
   //here, (a,b) are arguments of anonymous func (request,response). Arguments can be renamed but u can't change their placements
   const userInfo = new User(req.body);
 
   try {
-    const user = await userInfo.save();
-    // res.status(201).send(user);
-    res.send(user);
+    await userInfo.save();
+    const token = await userInfo.generateAuthToken();
+    res.send({ userInfo, token });
+    res.status(201);
+    console.log({ userInfo, token });
+    // res.send((201).send({ userInfo, token }));
   } catch (err) {
     // res.status(409).send( `Error Occured! ${err}`); or,
     res.status(409).send(err);
   }
 });
 
-//GET Method : Read from an endpoint
-
-router.get("/users", async (req, res) => {
+//Login
+router.post("/users/login", async (req, res) => {
   try {
-    const user = await User.find({ name: "Bibha" }); //finds and sends "bibha" ko document as a response
+    const user = await User.findByCredentials(
+      req.body.email,
+      req.body.password
+    );
+    const token = await user.generateAuthToken();
+    res.send({ user, token });
+  } catch (e) {
+    res.status(400).send();
+  }
+});
+
+//GET Method : Read from an endpoint
+router.get("/users", auth, async (req, res) => {
+  try {
+    const user = await User.find({});
+
+    const a = await abcd(10000);
     res.send(user);
+    console.log(a);
   } catch (e) {
     res.status(500).send();
+  }
+
+  function abcd(timer) {
+    return new Promise((resolve) => {
+      // some op
+      setTimeout(() => resolve("done!"), timer);
+    });
   }
 });
 
@@ -100,23 +127,6 @@ router.delete("/users/:id", async (req, res) => {
     res.send(updatedResult);
   } catch (e) {
     res.status(500).send();
-  }
-});
-
-//Login
-router.post("/users/login", async (req, res) => {
-  try {
-    const user = await User.findByCredentials(
-      req.body.email,
-      req.body.password
-    );
-    try {
-      res.send(user);
-    } catch (e) {
-      console.log("unable to send user");
-    }
-  } catch (e) {
-    res.status(400).send();
   }
 });
 
