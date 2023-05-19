@@ -23,8 +23,6 @@ app.listen(port, () => {
 //   res.status(503).send();
 // });
 
-
-
 app.use(express.json()); //your application is using json() method of Express to get data in json format
 app.use(userRouter);
 app.use(taskRouter);
